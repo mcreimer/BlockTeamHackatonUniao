@@ -1,0 +1,32 @@
+{
+  "name": "nft_metadata",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valterlobo/NFT_Metadata.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/valterlobo/NFT_Metadata/issues"
+  },
+  "homepage": "https://github.com/valterlobo/NFT_Metadata#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "hardhat": "^2.12.3"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.8.0",
+    "csv-parse": "^5.3.3",
+    "dotenv": "^16.0.3",
+    "fs": "^0.0.1-security",
+    "hardhat-contract-sizer": "^2.6.1",
+    "web3.storage": "^4.4.0"
+  }
+}
