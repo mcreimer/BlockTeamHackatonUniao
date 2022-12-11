@@ -10,18 +10,20 @@ import "./MetadataStorage.sol";
 contract NFTMetadata is
     ERC721Enumerable,
     ERC721URIStorage,
-    Ownable,
     ERC721Burnable,
+    Ownable,
     MetadataStorage
-    
 {
     //URI contract
     string private _contractUri;
-    
+
     constructor(
         string memory _name,
         string memory _symbol
-    ) ERC721(_name, _symbol) {}
+    ) ERC721(_name, _symbol) {
+
+        super.transferOwnership(msg.sender); 
+    }
 
     function safeMint(
         address to,
@@ -32,6 +34,17 @@ contract NFTMetadata is
         _setTokenURI(tokenId, uri);
     }
 
+    function safeMintMetadata(
+        address to,
+        uint256 tokenId,
+        MetadataLibrary.Property[] memory properties,
+        MetadataLibrary.Attribute[] memory attributes
+    ) public onlyOwner {
+        _safeMint(to, tokenId);
+        _setTokenURI(tokenId, "");
+        super.addProperties(tokenId, properties);
+        super.addAttributes(tokenId, attributes);
+    }
 
     function reloadTokenURI(uint256 tokenId, string calldata _uri) public {
         string memory uri;
@@ -55,7 +68,6 @@ contract NFTMetadata is
 
     // -----------------------------------------------------------------------
 
-
     // The following functions are overrides required by Solidity.
 
     function _burn(
@@ -70,8 +82,9 @@ contract NFTMetadata is
         //super.tokenURI(tokenId);
         string memory uri;
         uri = getMetadataJSON(tokenId);
-        return uri; 
+        return uri;
     }
+
     function _beforeTokenTransfer(
         address from,
         address to,
@@ -86,4 +99,6 @@ contract NFTMetadata is
     ) public view override(ERC721, ERC721Enumerable) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
+
+
 }

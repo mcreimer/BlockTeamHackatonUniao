@@ -4,48 +4,32 @@ pragma solidity ^0.8.10;
 import "@openzeppelin/contracts/utils/Base64.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Multicall.sol";
+import "./MetadataLibrary.sol";
+
 
 contract MetadataStorage is Multicall, Ownable {
-    mapping(uint256 => Metadata) metadatas;
+    mapping(uint256 => MetadataLibrary.Metadata) metadatas;
 
     mapping(uint256 => mapping(string => uint256)) indexProperties;
     mapping(uint256 => mapping(string => uint256)) indexAttributes;
 
-    struct Attribute {
-        string displayType;
-        string keyType;
-        string valueType;
-        string tagKey;
-        string tagValue;
-        string tagType;
-    }
-
-    struct Property {
-        string key;
-        string value;
-    }
-
-    struct Metadata {
-        Property[] properties;
-        Attribute[] attributes;
-    }
 
     function addProperty(
         uint256 id,
         string memory key,
         string memory value
-    ) external onlyOwner {
-        metadatas[id].properties.push(Property(key, value));
+    ) public onlyOwner {
+        metadatas[id].properties.push(MetadataLibrary.Property(key, value));
         uint256 idx = metadatas[id].properties.length - 1;
         indexProperties[id][key] = idx;
     }
 
-    function addProperties(uint256 id, Property[] memory properties)
-        external
+    function addProperties(uint256 id, MetadataLibrary.Property[] memory properties)
+        public
         onlyOwner
     {
         for (uint256 index = 0; index < properties.length; index++) {
-            Property memory prop = properties[index];
+            MetadataLibrary.Property memory prop = properties[index];
             metadatas[id].properties.push(prop);
             uint256 idx = metadatas[id].properties.length - 1;
             indexProperties[id][prop.key] = idx;
@@ -56,12 +40,12 @@ contract MetadataStorage is Multicall, Ownable {
         uint256 id,
         string memory key,
         string memory value
-    ) external onlyOwner {
+    ) public onlyOwner {
         uint256 idx = indexProperties[id][key];
         metadatas[id].properties[idx].value = value;
     }
 
-    function deleteProperty(uint256 id, string memory key) external onlyOwner {
+    function deleteProperty(uint256 id, string memory key) public onlyOwner {
         uint256 idx = indexProperties[id][key];
         require(
             isEqual(metadatas[id].properties[idx].key, key),
@@ -78,9 +62,9 @@ contract MetadataStorage is Multicall, Ownable {
         string memory tagKey,
         string memory tagValue,
         string memory tagType
-    ) external onlyOwner {
+    ) public onlyOwner {
         metadatas[id].attributes.push(
-            Attribute(
+            MetadataLibrary.Attribute(
                 displayType,
                 keyType,
                 valueType,
@@ -93,12 +77,12 @@ contract MetadataStorage is Multicall, Ownable {
         indexAttributes[id][keyType] = idx;
     }
 
-    function addAttributes(uint256 id, Attribute[] memory attributes)
-        external
+    function addAttributes(uint256 id, MetadataLibrary.Attribute[] memory attributes)
+        public
         onlyOwner
     {
         for (uint256 index = 0; index < attributes.length; index++) {
-            Attribute memory attr = attributes[index];
+            MetadataLibrary.Attribute memory attr = attributes[index];
             metadatas[id].attributes.push(attr);
             uint256 idx = metadatas[id].attributes.length - 1;
             indexAttributes[id][attr.keyType] = idx;
@@ -110,14 +94,14 @@ contract MetadataStorage is Multicall, Ownable {
         string memory displayType,
         string memory keyType,
         string memory valueType
-    ) external onlyOwner {
+    ) public onlyOwner {
         uint256 idx = indexAttributes[id][keyType];
         metadatas[id].attributes[idx].displayType = displayType;
         metadatas[id].attributes[idx].keyType = keyType;
         metadatas[id].attributes[idx].valueType = valueType;
     }
 
-    function deleteAttribute(uint256 id, string memory keyType) external {
+    function deleteAttribute(uint256 id, string memory keyType) public {
         uint256 idx = indexAttributes[id][keyType];
         require(
             isEqual(metadatas[id].attributes[idx].keyType, keyType),
@@ -127,9 +111,9 @@ contract MetadataStorage is Multicall, Ownable {
     }
 
     function getMetadataJSON(uint256 id) public view returns (string memory) {
-        Attribute[] memory arrAttributes = metadatas[id].attributes;
-        Property[] memory arrProperties = metadatas[id].properties;
-        Attribute[] memory arrAttributesTemp = new Attribute[](
+        MetadataLibrary.Attribute[] memory arrAttributes = metadatas[id].attributes;
+        MetadataLibrary.Property[] memory arrProperties = metadatas[id].properties;
+        MetadataLibrary.Attribute[] memory arrAttributesTemp = new MetadataLibrary.Attribute[](
             arrAttributes.length
         );
 
@@ -209,12 +193,17 @@ contract MetadataStorage is Multicall, Ownable {
         return bytes(_s).length == 0;
     }
 
+  
     function isEqual(string memory a, string memory b)
         internal
         pure
         returns (bool)
     {
-        return (keccak256(abi.encodePacked(a)) ==
-            keccak256(abi.encodePacked(b)));
+        if (bytes(a).length != bytes(b).length) {
+            return false;
+        } else {
+            return (keccak256(abi.encodePacked(a)) ==
+                keccak256(abi.encodePacked(b)));
+        }
     }
 }
