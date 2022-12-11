@@ -21,8 +21,7 @@ contract NFTMetadata is
         string memory _name,
         string memory _symbol
     ) ERC721(_name, _symbol) {
-
-        super.transferOwnership(msg.sender); 
+        super.transferOwnership(msg.sender);
     }
 
     function safeMint(
@@ -99,6 +98,4 @@ contract NFTMetadata is
     ) public view override(ERC721, ERC721Enumerable) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
-
-
 }

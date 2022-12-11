@@ -27,7 +27,7 @@ describe("PortfolioManagement", function () {
             "PortfolioManagement"
         );
 
-      
+
 
         const portifolio = await PortifolioFactory.deploy([rolea1.address, rolea2.address, rolea3.address], nftToken.address, 2);
 
@@ -36,7 +36,7 @@ describe("PortfolioManagement", function () {
 
         let owners = [rolea1, rolea2, rolea3]
 
-      
+
         nftToken.transferOwnership(portifolio.address)
 
 
@@ -60,7 +60,7 @@ describe("PortfolioManagement", function () {
 
     describe("PortfolioManagement", function () {
 
-        it("PortfolioManagement-submitTransaction | Confi", async function () {
+        it("PortfolioManagement-submitTransaction | executeTransaction", async function () {
 
             const { nftToken, owner, operator, nameNFT, symbolNFT, portifolio, owners } = await loadFixture(deployContract)
 
@@ -87,14 +87,11 @@ describe("PortfolioManagement", function () {
             await tx.wait();
 
 
-
             const tx1 = await portifolio.connect(owners[0]).confirmTransaction(0)
 
             const tx2 = await portifolio.connect(owners[1]).confirmTransaction(0)
-            
-            
-            const tx3 = await portifolio.connect(owners[2]).executeTransaction(0)
 
+            const tx3 = await portifolio.connect(owners[2]).executeTransaction(0)
 
             expect(await nftToken.ownerOf(1)).to.equal(owner.address)
 

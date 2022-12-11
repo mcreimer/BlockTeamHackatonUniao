@@ -12,3 +12,7 @@ npx hardhat node
 npx hardhat run scripts/deploy.js
 ```
 ACCOUNT CELO : 0xACE3D135130cF31Ec2337c0f134696225e85D31c
+
+
+
+NFT VIEW https://nfts.valoraapp.com/ 

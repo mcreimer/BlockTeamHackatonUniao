@@ -2,20 +2,39 @@
 const main = async () => {
 
 
+
   const certData = require("../dados/config.json");
   console.log(certData)
+
+
+
+  walletMnemonic1 = ethers.Wallet.fromMnemonic(certData.ROLE_01, "m/44'/52752'/0'/0")
+
+  console.log(walletMnemonic1.address)
+
+
+  walletMnemonic2 = ethers.Wallet.fromMnemonic(certData.ROLE_02, "m/44'/52752'/0'/0")
+
+  console.log(walletMnemonic2.address)
+
+  //0xaFdca2844e9eB9d2FBC6e534ffbdD06e4126eB56
+  //0x7DCda78C7137945B1d26a718C587eB76D894D920
+
+
   const NFTContractFactory = await hre.ethers.getContractFactory('NFTMetadata');
   const NFTContract = await NFTContractFactory.deploy(certData.name, certData.symbol)
   await NFTContract.deployed();
 
-
   await NFTContract.setContractURI(getJsonContract(certData))
-  /*let str = await NFTContract.contractURI()
-  console.log("---------------------")
-  console.log(str)
-  console.log("---------------------")*/
+  console.log("NFTMetadata deployed to:        ", NFTContract.address)
+  const PortifolioFactory = await hre.ethers.getContractFactory("PortfolioManagement")
 
-  console.log("Contract deployed to:", NFTContract.address)
+  const portifolio = await PortifolioFactory.deploy([walletMnemonic1.address, walletMnemonic2.address], NFTContract.address, 2);
+
+  await portifolio.deployed();
+  console.log("PortfolioManagement deployed to:", portifolio.address)
+
+  NFTContract.transferOwnership(portifolio.address)
 
 }
 
