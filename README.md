@@ -17,16 +17,15 @@ O objetivo é realizar uma simulação do registro de uma NFT e a confirmação 
 Foi utilizado _ **node.js** _ e _ **hardhat** _ e _ **solidity** _ para desenvolver e realizar os testes no contratos.
 
 Preparar as informações para o deploy e mint
+## 1 - Os dados estão localizados no diretório   dados/:
 
-## 1 - Os dados estão localizados no diretório** _ **dados/** _ **:**
-
-## 2 - Criar e preencher a planilha(csv) com os seguintes dados :**
+## 2 - Criar e preencher a planilha(csv) com os seguintes dados/ :
 
 obs: a planilha deve ser localizada no diretório  dados/ 
 
-Existe uma planilha para realizar a simulação no diretório /dados: _demostrativos\_imovel\_6921000115005.csv_
+Existe uma planilha para realizar a simulação no diretório /dados: _demostrativos_imovel_6921000115005.csv_
 
-## 3 - Criar o arquivo config.json com as propriedades para gerar o JSON da NFT.**
+## 3 - O arquivo config.json com as propriedades para gerar o JSON da NFT.
 
     {
 
@@ -58,7 +57,7 @@ Existe uma planilha para realizar a simulação no diretório /dados: _demostrat
 
          npx hardhat run scripts/1-deploy.js --network alfajores
 
-Colocar no arquivo _ **config.json** _ o contrato do endereço do contrato da _ **NFT/Registro Imovel** _ na tag _ **nft\_addr,** _ e do contrato _ **Portfólio** _ na tag _ **portifolio\_addr.** _
+Colocar no arquivo _ **config.json** o endereço do contrato da _ **NFT/Registro Imovel** na tag  **nft_addr,**  e do contrato _ **Portfólio** _ na tag  **portifolio_addr.**
 
 # "MVP" - Script vai simular uma integração com as informações dos sistemas com a blockchain da CELO.
 
