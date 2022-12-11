@@ -22,7 +22,7 @@ Preparar as informações para o deploy e mint
 
 ## 2 - Criar e preencher a planilha(csv) com os seguintes dados :**
 
-obs: a planilha deve ser localizada no diretório _dados/_
+obs: a planilha deve ser localizada no diretório  dados/ 
 
 Existe uma planilha para realizar a simulação no diretório /dados: _demostrativos\_imovel\_6921000115005.csv_
 
@@ -36,19 +36,19 @@ Existe uma planilha para realizar a simulação no diretório /dados: _demostrat
 
     "description": "SPU IMOVEIS UNIAO",
 
-    "image\_contract": "icone.png",
+    "image_contract": "icone.png",
 
     "csv": "/home/valter/ESTUDOS/CELO/NFT\_Metadata/dados/demostrativos\_imovel\_6921000115005.csv",
 
-    "nft\_addr": "0x3E9603a5584431CCd80c4d054707D818A563491f",
+    "nft_addr": "0x3E9603a5584431CCd80c4d054707D818A563491f",
 
-    "portifolio\_addr": "0xACE3D135130cF31Ec2337c0f134696225e85D31c",
+    "portifolio_addr": "0xACE3D135130cF31Ec2337c0f134696225e85D31c",
 
-    "custodia\_addr" : "0x64b4A71963ff278B586D4d998aBBC584DaDbB3BB" ,
+    "custodia_addr" : "0x64b4A71963ff278B586D4d998aBBC584DaDbB3BB" ,
 
-    "ROLE\_01": "galaxy toward wasp creek ice dose lend icon evil define amount engine adult response buffalo tribe amused skirt radio notable camp bid then laundry",
+    "ROLE_01": "galaxy toward wasp creek ice dose lend icon evil define amount engine adult response buffalo tribe amused skirt radio notable camp bid then laundry",
 
-    "ROLE\_02": "claw million actor wire salon equal time payment fiscal crop door wreck skin divert dizzy panda daring remove discover inhale swallow arrest garbage torch"
+    "ROLE_02": "claw million actor wire salon equal time payment fiscal crop door wreck skin divert dizzy panda daring remove discover inhale swallow arrest garbage torch"
 
     }
 
@@ -56,13 +56,13 @@ Existe uma planilha para realizar a simulação no diretório /dados: _demostrat
 
 ## **1 - Executar o script deploy contrato**
 
-         _npx hardhat run scripts/1-deploy.js --network alfajores_
+         npx hardhat run scripts/1-deploy.js --network alfajores
 
 Colocar no arquivo _ **config.json** _ o contrato do endereço do contrato da _ **NFT/Registro Imovel** _ na tag _ **nft\_addr,** _ e do contrato _ **Portfólio** _ na tag _ **portifolio\_addr.** _
 
 # "MVP" - Script vai simular uma integração com as informações dos sistemas com a blockchain da CELO.
 
-       npx hardhat run scripts/2-mvp.js --network alfajores_
+       npx hardhat run scripts/2-mvp.js --network alfajores
 
 #
 # Hardhat 
