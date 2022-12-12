@@ -78,7 +78,7 @@ describe("PortfolioManagement", function () {
             attributes.push(["", "INFO3", "C", "key", "value", "trait_type"]);
 
             const tx = await portifolio.connect(owners[0]).submitTransaction(
-                owner.address,
+                operator.address,
                 1,
                 properties,
                 attributes
@@ -93,7 +93,7 @@ describe("PortfolioManagement", function () {
 
             const tx3 = await portifolio.connect(owners[2]).executeTransaction(0)
 
-            expect(await nftToken.ownerOf(1)).to.equal(owner.address)
+            expect(await nftToken.ownerOf(1)).to.equal(operator.address)
 
 
 

@@ -11,7 +11,6 @@ contract NFTMetadata is
     ERC721Enumerable,
     ERC721URIStorage,
     ERC721Burnable,
-    Ownable,
     MetadataStorage
 {
     //URI contract
@@ -21,14 +20,17 @@ contract NFTMetadata is
         string memory _name,
         string memory _symbol
     ) ERC721(_name, _symbol) {
-        super.transferOwnership(msg.sender);
+
+        super._transferOwnership(msg.sender) ;   
+         _transferOwnership(msg.sender) ;
+
     }
 
     function safeMint(
         address to,
         uint256 tokenId,
         string memory uri
-    ) public onlyOwner {
+    ) public onlyOwner { 
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
     }
@@ -39,10 +41,11 @@ contract NFTMetadata is
         MetadataLibrary.Property[] memory properties,
         MetadataLibrary.Attribute[] memory attributes
     ) public onlyOwner {
+     
+        addProperties(tokenId, properties);
+        addAttributes(tokenId, attributes);
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, "");
-        super.addProperties(tokenId, properties);
-        super.addAttributes(tokenId, attributes);
     }
 
     function reloadTokenURI(uint256 tokenId, string calldata _uri) public {

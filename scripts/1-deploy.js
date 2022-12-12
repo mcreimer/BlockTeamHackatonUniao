@@ -34,7 +34,7 @@ const main = async () => {
   await portifolio.deployed();
   console.log("PortfolioManagement deployed to:", portifolio.address)
 
-  NFTContract.transferOwnership(portifolio.address)
+  //await NFTContract.transferOwnership(portifolio.address)
 
 }
 
