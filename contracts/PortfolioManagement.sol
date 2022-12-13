@@ -4,7 +4,9 @@ pragma solidity ^0.8.10;
 import "./MetadataLibrary.sol";
 import "./NFTMetadata.sol";
 
-contract PortfolioManagement {
+import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
+
+contract PortfolioManagement is IERC721Receiver, ERC165, ERC721Holder {
     NFTMetadata public nftToken;
 
     address[] public owners;
@@ -184,4 +186,7 @@ contract PortfolioManagement {
             transaction.numConfirmations
         );
     }
+
+    //
+    receive() external payable {}
 }
