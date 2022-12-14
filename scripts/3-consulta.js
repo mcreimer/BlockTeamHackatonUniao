@@ -24,7 +24,8 @@ const main = async () => {
     console.log("Contract attach to:", NFTContract.address)
 
 
-    const tokenID = 643000215009
+    const tokenID = 6921000115005
+
 
     const tokenURI = await NFTContract.tokenURI(tokenID)
 
