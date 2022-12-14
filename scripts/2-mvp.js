@@ -19,15 +19,17 @@ const main = async () => {
 
     var url = 'https://alfajores-forno.celo-testnet.org';
     var customHttpProvider = new ethers.providers.JsonRpcProvider(url);
-    walletsigner1 = await walletMnemonic1.connect(customHttpProvider)
+    let walletsigner1 = await walletMnemonic1.connect(customHttpProvider)
     //console.log(walletsigner1.provider)
-    walletsigner2 = await walletMnemonic2.connect(customHttpProvider)
+    let walletsigner2 = await walletMnemonic2.connect(customHttpProvider)
     //console.log(walletsigner2.provider)
 
 
 
     /////////////////////////////////////////////////////////
 
+
+    /*
     const NFTContractFactory = await hre.ethers.getContractFactory('NFTMetadata');
     const NFTContract = await NFTContractFactory.deploy(certData.name, certData.symbol)
     await NFTContract.deployed();
@@ -37,7 +39,21 @@ const main = async () => {
 
     await PortifolioContract.deployed();
     console.log("PortfolioManagement deployed to:", PortifolioContract.address)
-    NFTContract.transferOwnership(PortifolioContract.address)
+    //NFTContract.transferOwnership(PortifolioContract.address)
+    */
+
+    /////////////////////////////////////////////////
+
+
+    /////////////////////////////////////////////////
+
+    const NFTContractFactory = await hre.ethers.getContractFactory('NFTMetadata')
+    const NFTContract = await NFTContractFactory.attach(certData.nft_addr)
+
+
+    //const PortifolioFactory = await hre.ethers.getContractFactory("PortfolioManagement")
+    //const PortifolioContract = await PortifolioFactory.attach(certData.portifolio_addr)
+
     /////////////////////////////////////////////////
 
 
@@ -72,31 +88,60 @@ const main = async () => {
                     attributes.push(["", key, value, "key", "value", "trait_type"]);
                 });
 
+                const txNFT = await NFTContract.safeMintMetadata(
+                    certData.custodia_addr,
+                    row['Rip Imóvel'],
+                    properties,
+                    attributes,
+                    {
+                        gasLimit: 5000000
+                    }
+                    )
 
+                await txNFT.wait();
 
                 /*
+              const tx = await PortifolioContract.connect(walletsigner2).submitTransaction(
+                  PortifolioContract.address,
+                  row['Rip Imóvel'],
+                  properties,
+                  attributes,
+                  {
+                      gasLimit: 5000000
+                  }
 
-                const tx = await PortifolioContract.connect(walletsigner1).submitTransaction(
-                    PortifolioContract.address,
-                    1,
-                    properties,
-                    attributes
-                )
-    
-                await tx.wait();
+              )
 
-    
-                const tx1 = await PortifolioContract.connect(walletsigner1).confirmTransaction(0)
-    
-                const tx2 = await PortifolioContract.connect(walletsigner2).confirmTransaction(0)
-    
-                const tx3 = await PortifolioContract.connect(walletsigner2).executeTransaction(0)
+              await tx.wait();
 
-                console.log(NFTContract.ownerOf(1)) 
-                */
+              const tx1 = await PortifolioContract.connect(walletsigner1).confirmTransaction(1)
 
+              await tx1.wait()
 
+              const tx2 = await PortifolioContract.connect(walletsigner2).confirmTransaction(1)
 
+              await tx2.wait()
+
+              console.log(await NFTContract.owner())
+              console.log(await PortifolioContract.address)
+
+              const tx3 = await PortifolioContract.connect(walletsigner1).executeTransaction(1,
+                  {
+                      gasLimit: 5000000
+                  })
+
+              await tx3.wait()
+
+              //console.log(NFTContract.ownerOf(1))
+              */
+
+                const tokenURI = await NFTContract.tokenURI(row['Rip Imóvel'])
+                //console.log(tokenURI)
+                const strBase64 = tokenURI.replace("data:application/json;base64,", "")
+                const plain = Buffer.from(strBase64, 'base64').toString('utf8')
+                console.log("--------------------------------------------")
+                console.log(JSON.stringify(JSON.parse(plain), null, 2))
+                console.log("--------------------------------------------")
 
             })
             .on("error", function (error) {
